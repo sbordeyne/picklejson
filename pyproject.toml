@@ -14,6 +14,7 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = "^3.10"
+packaging = "^21.3"
 
 [tool.poe.tasks]
 add_changelog  = { script = "scripts.add_changelog:main" }
@@ -42,7 +43,7 @@ split_before_bitwise_operator = true
 split_complex_comprehension = true
 split_before_first_argument = true
 split_before_dot = true
-split_before_dict_set_operator = true
+# split_before_dict_set_operator = true
 split_before_closing_bracket = true
 each_dict_entry_on_separate_line = true
 dedent_closing_brackets = true
