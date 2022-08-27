@@ -33,6 +33,7 @@ def simple_encoded():
         '"children": "list"}}'
     )
 
+
 @pytest.fixture
 def NotSerializable() -> type:
     return _NotSerializable
