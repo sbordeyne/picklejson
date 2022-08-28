@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "picklejson"
-version = "1.0.0"
+version = "1.1.0"
 description = "Library that allows you to serialize any python object into JSON"
 authors = ["Dogeek <simon.bordeyne@gmail.com>"]
 license = "MIT"
@@ -54,7 +54,7 @@ coalesce_brackets = true
 github_url = "https://github.com/Dogeek/picklejson/"
 
 [tool.tbump.version]
-current = "1.0.0"
+current = "1.1.0"
 regex = '''
   (?P<major>\d+)
   \.

@@ -71,7 +71,7 @@ def test_version_deserialize(Person, simple_encoded: str):
     raw_json = json.loads(simple_encoded)
     raw_json['encoder_version'] = '2.0.0'
     encoded_v2 = json.dumps(raw_json)
-    raw_json['encoder_version'] = '1.1.0'
+    raw_json['encoder_version'] = '1.2.0'
     encoded_warn = json.dumps(raw_json)
 
     with pytest.raises(TypeError):
