@@ -6,15 +6,18 @@ from packaging.version import Version
 
 from picklejson import __version__
 from picklejson.interfaces import JSONType
+from picklejson.context import Context
 
 
 class Decoder(JSONDecoder):
     def __init__(
-        self, scope: dict[str, Any], *, object_hook=None, parse_float=None,
+        self, *, object_hook=None, parse_float=None,
         parse_int=None, parse_constant=None, strict=True,
-        object_pairs_hook=None
+        object_pairs_hook=None, scope: dict[str, Any] | None = None,
     ):
         self.scope = scope
+        if self.scope is None:
+            self.scope = Context()
         self.passed_object_hook = object_hook or (lambda x: x)
         super().__init__(
             object_hook=self._object_hook, parse_float=parse_float,
@@ -46,10 +49,14 @@ class Decoder(JSONDecoder):
             )
 
         # Get class from globals
-        klass = self.scope.get(decoded['name'])
+        if self.scope is Context():
+            scope_name = f"{decoded['name']}.{decoded['version']}"
+        else:
+            scope_name = decoded['name']
+        klass = self.scope.get(scope_name)
         if klass is None:
             raise NameError((
-                f'Object {decoded["name"]} cannot be found in the global scope. '
+                f'Object {scope_name} cannot be found in the global scope. '
                 f'Has it been renamed?'
             ))
 

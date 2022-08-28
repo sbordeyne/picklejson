@@ -8,3 +8,4 @@ from picklejson.encoder import Encoder as JSONEncoder  # noqa
 from picklejson.interfaces import JSONType  # noqa
 from picklejson.decorator import serializable  # noqa
 from picklejson.functions import dump, dumps, load, loads  # noqa
+from picklejson.context import Context  # noqa

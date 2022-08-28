@@ -1,5 +1,7 @@
 from typing import Any, Callable
 
+from picklejson.context import Context
+
 # This complicated looking decorator does multiple things :
 # First off, it marks the object as serializable by the module (attribute __serializable__)
 # Then it sets the version of the serialization on the object
@@ -14,10 +16,12 @@ def serializable(object_version: str | tuple[int | str] | Callable) -> type:
     '''Marks a python object as serializable.'''
     if isinstance(object_version, tuple | list):
         object_version = '.'.join(str(v) for v in object_version)
+    context: Context = Context()
 
     def _serializable(klass: type) -> type:
         klass.__serializable__ = True
         klass.__version__ = object_version if isinstance(object_version, str) else '1.0.0'
+        context[f'{klass.__name__}.{klass.__version__}'] = klass
 
         def initializer(*args: tuple[Any], **kwargs: dict[str, Any]) -> Callable:
             nonlocal klass

@@ -6,7 +6,7 @@ from picklejson import JSONDecoder
 
 
 def test_simple_deserialize(Person, simple_encoded: str):
-    decoded = JSONDecoder({'_Person': Person}).decode(simple_encoded)
+    decoded = JSONDecoder(scope={'_Person': Person}).decode(simple_encoded)
     assert isinstance(decoded, Person)
     assert decoded.name == 'John Doe'
     assert decoded.age == 35
@@ -53,7 +53,7 @@ def test_circular_deserialize(Person):
         '"init_prototype": {"name": "str", "age": "int", "is_male": "bool", '
         '"children": "list"}}'
     )
-    decoded = JSONDecoder({'_Person': Person}).decode(encoded)
+    decoded = JSONDecoder(scope={'_Person': Person}).decode(encoded)
     assert isinstance(decoded, Person)
     assert decoded.name == 'John Doe'
     assert decoded.age == 35
@@ -64,7 +64,7 @@ def test_circular_deserialize(Person):
 
 def test_unbound_deserialize(simple_encoded: str):
     with pytest.raises(NameError):
-        JSONDecoder({}).decode(simple_encoded)
+        JSONDecoder(scope={}).decode(simple_encoded)
 
 
 def test_version_deserialize(Person, simple_encoded: str):
@@ -75,7 +75,7 @@ def test_version_deserialize(Person, simple_encoded: str):
     encoded_warn = json.dumps(raw_json)
 
     with pytest.raises(TypeError):
-        JSONDecoder({'_Person': Person}).decode(encoded_v2)
+        JSONDecoder(scope={'_Person': Person}).decode(encoded_v2)
 
     with pytest.warns(UserWarning):
-        JSONDecoder({'_Person': Person}).decode(encoded_warn)
+        JSONDecoder(scope={'_Person': Person}).decode(encoded_warn)
